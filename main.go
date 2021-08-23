@@ -1,6 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"os"
+	"log"
+	"github.com/joho/godotenv"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/RohitKuwar/go-fiber-api/routes"
@@ -38,10 +42,14 @@ func main() {
 	setupRoutes(app)
 
 	// Listen on server 8000 and catch error if any
-	err := app.Listen(":8000")
+	// port := os.Getenv("PORT")
+	err := godotenv.Load()
+  if err != nil {
+    log.Fatal("Error loading .env file")
+  }
 
-	// handle error
-	if err != nil {
-		panic(err)
-	}
+  port := os.Getenv("PORT")
+	app.Listen(":"+port)
+	fmt.Println("port is:", port)
+
 }
